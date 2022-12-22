@@ -18,7 +18,7 @@ const Login = () => {
       },
     })
       .then((response) => {
-        console.log(response.data.token);
+        console.log(response.data);
         localStorage.setItem("token", response.data.token);
       })
       .catch((e) => console.log(e.message));

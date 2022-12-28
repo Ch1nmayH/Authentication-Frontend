@@ -1,17 +1,24 @@
-import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/NavBar.css";
 const NavBar = () => {
+  let navigate = useNavigate();
+  const logoutFunction = () => {
+    Cookies.set("token", "", { expires: 0.0000000000000001 });
+    navigate("/login");
+  };
   return (
     <>
       <div className="nav-container">
-        <header>
-          <nav>
-            <ul className="nav">
-              <li className="nav-items">
-                <Link className="nav-link" to="/">
-                  Home
-                </Link>
-              </li>
+        <h2>Logo</h2>
+        <ul className="nav-menu">
+          <li className="nav-items">
+            <Link className="nav-link" to="/">
+              Home
+            </Link>
+          </li>
+          {!Cookies.get("token") ? (
+            <>
               <li className="nav-items">
                 <Link className="nav-link" to="login">
                   Login
@@ -22,14 +29,17 @@ const NavBar = () => {
                   Register
                 </Link>
               </li>
+            </>
+          ) : (
+            <>
               <li className="nav-items">
-                <Link className="nav-link" to="Logout">
+                <a className="nav-link" onClick={logoutFunction}>
                   Logout
-                </Link>
+                </a>
               </li>
-            </ul>
-          </nav>
-        </header>
+            </>
+          )}
+        </ul>
       </div>
     </>
   );

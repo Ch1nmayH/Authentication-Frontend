@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "../styles/style.css";
 
 const Register = () => {
+  let navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,16 +24,21 @@ const Register = () => {
     })
       .then((response) => {
         // console.log(response.data);
+        console.log(response);
         toast.success(response.data, {
           position: toast.POSITION.TOP_CENTER,
         });
         toast.success(response.data.verification, {
           position: toast.POSITION.TOP_CENTER,
         });
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
       })
       .catch((e) => {
-        // console.log(e);
         console.log(e.response.data);
+        // console.log(e.response.data);
         let custId = e.response.data;
         return toast.error(e.response.data, {
           toastId: custId,

@@ -22,7 +22,7 @@ const NavBar = () => {
       });
 
       <ToastContainer />;
-      localStorage.removeItem("user-info");
+      // localStorage.removeItem("user-info");
       setTimeout(() => {
         navigate("/login");
         setUser(null);

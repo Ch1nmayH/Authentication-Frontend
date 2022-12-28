@@ -1,18 +1,8 @@
-* {
-  margin: 0;
-  box-sizing: border-box;
-  padding: 0;
-}
-
-body {
-  background-color: #36486b;
-}
 .form-container {
   display: flex;
   height: 100vh;
   justify-content: center;
   align-items: center;
-  text-shadow: 2px 2px 4px #000000;
 }
 
 form {
@@ -25,17 +15,21 @@ form {
   border-radius: 10px;
 }
 
-label {
+form label {
   text-align: left;
   padding: 10px 0;
-  color: white;
+  font-family: "Roboto Mono", monospace;
+  font-weight: 1000;
+  margin-top: 1rem;
 }
 
-input {
+form input {
   border: none;
+  border-bottom: 1px solid black;
   border-radius: 10px;
-  background-color: white;
+  background-color: #fff;
   padding: 10px;
+  font-size: 20px;
 }
 
 button {
@@ -53,7 +47,7 @@ button {
 form h2 {
   text-align: center;
   padding: 10px;
-  color: white;
+  /* color: white; */
 }
 
 button:hover {

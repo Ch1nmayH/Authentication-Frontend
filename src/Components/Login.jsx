@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/style.css";
 import { toast, ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../utils/CreateContext";
 
 const Login = () => {
+  const { user, setUser } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
@@ -28,15 +30,21 @@ const Login = () => {
       },
     })
       .then((response) => {
+        let user = response.data.user;
+        setUser(user);
+
+        // localStorage.setItem("user-info", JSON.stringify(user));
         console.log(response);
         Cookies.set("token", response.data.token, { expires: 7 });
         toast.success(response.data.message, {
           position: toast.POSITION.TOP_CENTER,
         });
-        navigate("/");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       })
       .catch((e) => {
-        console.log(e.response.data);
+        console.log(e);
 
         let custId = e.response.data;
 
@@ -46,6 +54,7 @@ const Login = () => {
         });
       });
   };
+
   return (
     <>
       <div className="form-container">

@@ -20,8 +20,8 @@ const Register = () => {
       },
     })
       .then((response) => {
-        console.log(response.data);
-        toast.success(response.data.message, {
+        // console.log(response.data);
+        toast.success(response.data, {
           position: toast.POSITION.TOP_CENTER,
         });
         toast.success(response.data.verification, {
@@ -29,6 +29,7 @@ const Register = () => {
         });
       })
       .catch((e) => {
+        // console.log(e);
         console.log(e.response.data);
         let custId = e.response.data;
         return toast.error(e.response.data, {

@@ -24,6 +24,7 @@ const Login = () => {
     axios({
       method: "post",
       url: "http://localhost:8000/api/login",
+      withCredentials: true,
       data: {
         email,
         password,
@@ -31,11 +32,9 @@ const Login = () => {
     })
       .then((response) => {
         let user = response.data.user;
-        setUser(user);
+        localStorage.setItem("user-info", JSON.stringify(user));
+        setUser(JSON.parse(localStorage.getItem("user-info")));
 
-        // localStorage.setItem("user-info", JSON.stringify(user));
-        console.log(response);
-        Cookies.set("token", response.data.token, { expires: 7 });
         toast.success(response.data.message, {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -44,8 +43,6 @@ const Login = () => {
         }, 1000);
       })
       .catch((e) => {
-        console.log(e);
-
         let custId = e.response.data;
 
         toast.error(e.response.data, {

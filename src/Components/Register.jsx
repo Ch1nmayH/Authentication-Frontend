@@ -25,7 +25,7 @@ const Register = () => {
       .then((response) => {
         // console.log(response.data);
         console.log(response);
-        toast.success(response.data, {
+        toast.success(response.data.message, {
           position: toast.POSITION.TOP_CENTER,
         });
         toast.success(response.data.verification, {

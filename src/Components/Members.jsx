@@ -1,27 +1,40 @@
 import { prettyFormat } from "@testing-library/react";
 import axios from "axios";
-import React, { useContext, useState } from "react";
-import { json } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { json, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { UserContext } from "../utils/CreateContext";
 import JSONPretty from "react-json-pretty";
+import Cookies from "js-cookie";
 
 const customId = "custom-id-yes";
 
 const Members = () => {
+  let navigate = useNavigate();
+  axios.defaults.withCredentials = true;
   let [users, setUsers] = useState(null);
-  let response = async () => {
-    await axios
-      .get("http://localhost:8000/api/members")
-      .then((response) => {
-        // console.log(response.data);
-        setUsers(response.data);
-        // setUsers(data);
-      })
-      .catch((e) => console.log(e));
-  };
 
-  response();
+  useEffect(() => {
+    let response = async () => {
+      await axios
+        .get("http://localhost:8000/api/members")
+        .then((response) => {
+          setUsers(response.data);
+        })
+        .catch((e) => {
+          setTimeout(() => {
+            toast.error("You are not Authorised to view that page", {
+              toastId: "notAuth",
+              position: toast.POSITION.TOP_CENTER,
+            });
+          }, 9);
+
+          navigate("/");
+        });
+    };
+
+    response();
+  }, []);
 
   let theme = {
     main: "line-height:1.3;color:#66d9ef;background:#272822;overflow:auto;",
@@ -35,13 +48,11 @@ const Members = () => {
   return (
     <>
       <div>
-        {/* <h1>{users ? JSON.stringify(users) : "No users found"}</h1> */}
         <JSONPretty
           themeClassName="1337"
           theme={theme}
           data={users}
         ></JSONPretty>
-        {/* <h1>{users ? prettyFormat(users) : "No users found"}</h1> */}
       </div>
       <ToastContainer />
     </>

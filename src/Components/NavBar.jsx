@@ -1,3 +1,4 @@
+import axios from "axios";
 import Cookies from "js-cookie";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,15 +7,23 @@ import "../styles/NavBar.css";
 import { UserContext } from "../utils/CreateContext";
 
 const NavBar = () => {
+  axios.defaults.withCredentials = true;
+
   let { user, setUser } = useContext(UserContext);
-  // let userExist = localStorage.getItem("user-info");
-  // if (userExist) {
-  //   setUser(JSON.parse(userExist));
-  // }
+
   let navigate = useNavigate();
-  const logoutFunction = () => {
+  const logoutFunction = async () => {
     try {
-      Cookies.set("token", "", { expires: 0.0000000000000001 });
+      let response = await axios.get("http://localhost:8000/api/logout");
+
+      if (!response) {
+        toast.error("You are not logged in", {
+          toastId: "logout",
+          position: toast.POSITION.TOP_CENTER,
+        });
+
+        navigate("/login");
+      }
 
       toast.success("Successfully Logged out", {
         toastId: "logout",
@@ -22,13 +31,12 @@ const NavBar = () => {
       });
 
       <ToastContainer />;
-      // localStorage.removeItem("user-info");
+      localStorage.removeItem("user-info");
       setTimeout(() => {
         navigate("/login");
         setUser(null);
       }, 1000);
     } catch (error) {
-      console.log(error);
       toast.error("Error Occured, try again.", {
         toastId: "logoutError",
         position: toast.POSITION.TOP_CENTER,

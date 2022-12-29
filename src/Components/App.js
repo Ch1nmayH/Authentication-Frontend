@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { UserContext } from "../utils/CreateContext";
 import Home from "./Home";
@@ -9,6 +9,16 @@ import Members from "./Members";
 
 const App = () => {
   let [user, setUser] = useState(null);
+
+  useEffect(() => {
+    let getUser = JSON.parse(localStorage.getItem("user-info"));
+    if (getUser) {
+      setUser(getUser);
+    } else {
+      setUser(null);
+    }
+  }, []);
+
   return (
     <>
       <UserContext.Provider value={{ user, setUser }}>

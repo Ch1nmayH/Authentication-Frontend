@@ -23,7 +23,7 @@ const Login = () => {
 
     axios({
       method: "post",
-      url: "http://localhost:8000/api/login",
+      url: `${process.env.REACT_APP_PROXY}/api/login`,
       withCredentials: true,
       data: {
         email,

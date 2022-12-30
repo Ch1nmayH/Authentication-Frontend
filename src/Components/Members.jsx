@@ -17,7 +17,7 @@ const Members = () => {
   useEffect(() => {
     let response = async () => {
       await axios
-        .get("http://localhost:8000/api/members")
+        .get(`${process.env.REACT_APP_PROXY}api/members`)
         .then((response) => {
           setUsers(response.data);
         })

@@ -1,33 +1,27 @@
 import React, { useContext } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { UserContext } from "../utils/CreateContext";
-
-const customId = "custom-id-yes";
+import "../styles/style.css";
 
 const Home = () => {
   let { user, setUser } = useContext(UserContext);
 
   const notify = () => {
-    toast("I cannot be duplicated!", {
-      toastId: customId,
-    });
+    user
+      ? toast(`Hello ${user.name}, Your role : ${user.role}`, {
+          toastId: user.name,
+          position: toast.POSITION.TOP_CENTER,
+        })
+      : toast("Hello Guest User", {
+          toastId: "Guest",
+        });
   };
   return (
     <>
-      <div>
-        <button onClick={notify}>Notify</button>
+      <div className="display-details">
+        <button onClick={notify}>Click here to get your name and role</button>
       </div>
-      {user ? (
-        <>
-          <h1>Welcome {user.name}</h1>
-          <br />
-          <h2>Role : {user.role}</h2>
-        </>
-      ) : (
-        <>
-          <h1>Guest</h1>
-        </>
-      )}
+
       <ToastContainer />
     </>
   );

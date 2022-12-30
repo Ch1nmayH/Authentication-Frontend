@@ -14,7 +14,9 @@ const NavBar = () => {
   let navigate = useNavigate();
   const logoutFunction = async () => {
     try {
-      let response = await axios.get("http://localhost:8000/api/logout");
+      let response = await axios.get(
+        `${process.env.REACT_APP_PROXY}/api/logout`
+      );
 
       if (!response) {
         toast.error("You are not logged in", {
@@ -37,10 +39,12 @@ const NavBar = () => {
         setUser(null);
       }, 1000);
     } catch (error) {
+      localStorage.removeItem("user-info");
       toast.error("Error Occured, try again.", {
         toastId: "logoutError",
         position: toast.POSITION.TOP_CENTER,
       });
+      navigate("/");
     }
   };
   return (

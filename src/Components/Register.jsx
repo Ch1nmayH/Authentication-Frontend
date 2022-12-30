@@ -15,7 +15,7 @@ const Register = () => {
     e.preventDefault();
     axios({
       method: "post",
-      url: "http://localhost:8000/api/signup",
+      url: `${process.env.REACT_APP_PROXY}/api/signup`,
       data: {
         name,
         email,
